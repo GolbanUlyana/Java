@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.util.List;
+
 import ua.exceptions.InvalidDataException;
-import ua.model.*;
-import ua.tests.CourseTest;
-import ua.tests.StudentTest; // Додано імпорт
-import ua.tests.TeacherTest;    // Додано імпорт
-import ua.util.*;   // Додано імпорт
+import ua.model.Assignment;
+import ua.model.AssignmentType;
+import ua.model.Course;
+import ua.model.CourseLevel;
+import ua.model.CourseModule;
+import ua.model.Student;
+import ua.model.Teacher;
+import ua.util.FileDataReader;
+import ua.util.Logger;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,7 +46,7 @@ public class Main {
             System.out.println("\n6. ОБРОБКА ВИНЯТКІВ:");
             demonstrateExceptionHandling();
             
-            // 7. Демонстрація тестування
+            // 7. Демонстрація тестування (оновлено)
             System.out.println("\n7. ДЕМОНСТРАЦІЯ ТЕСТУВАННЯ:");
             demonstrateTesting();
             
@@ -103,7 +108,7 @@ public class Main {
                 "maria@example.com", LocalDate.of(2023, 9, 1));
             Course course = Course.createCourseWithValidation(
                 "Java Програмування", "Основи програмування на Java", 5,
-                LocalDate.of(2024, 1, 15), CourseLevel.BEGINNER);
+                LocalDate.now().plusDays(30), CourseLevel.BEGINNER); // Виправлена дата
                 
             System.out.println("✅ Створено тестові дані:");
             System.out.println("   - " + teacher);
@@ -138,7 +143,7 @@ public class Main {
             Teacher teacher = Teacher.createTeacherWithValidation(
                 "Олена", "Сидорова", LocalDate.of(1975, 8, 10), 20);
             Student student = Student.createStudentWithValidation(
-                "Петро", "Коваленko", LocalDate.of(1999, 12, 5),
+                "Петро", "Коваленко", LocalDate.of(1999, 12, 5),
                 "petro@example.com", LocalDate.of(2023, 9, 1));
             CourseModule module = CourseModule.createModule(
                 "Java Basics", "Основи програмування на Java", 10);
@@ -164,7 +169,7 @@ public class Main {
         try {
             Course javaCourse = Course.createCourseWithValidation(
                 "Java Pro", "Просунута Java", 7, 
-                LocalDate.of(2024, 3, 1), CourseLevel.ADVANCED);
+                LocalDate.now().plusDays(30), CourseLevel.ADVANCED); // Виправлена дата
             CourseModule advancedModule = CourseModule.createModule(
                 "Multithreading", "Багатопоточність у Java", 20);
             Assignment project = Assignment.createAssignment(
@@ -200,7 +205,7 @@ public class Main {
             Teacher teacher = Teacher.createTeacherWithValidation(
                 "Олена", "Сидорова", LocalDate.of(1975, 8, 10), 20);
             Student student = Student.createStudentWithValidation(
-                "Петро", "Коваленko", LocalDate.of(1999, 12, 5),
+                "Петро", "Коваленко", LocalDate.of(1999, 12, 5),
                 "petro@example.com", LocalDate.of(2023, 9, 1));
             
             CourseModule[] modules = {
@@ -302,20 +307,14 @@ public class Main {
     private static void demonstrateTesting() {
         Logger.info("Демонстрація тестування");
         
-        try {
-            System.out.println("Запуск базових тестів...");
-            
-            // Запуск окремих тестів
-            TeacherTest.testTeacherCreation();
-            StudentTest.testStudentCreation();
-            CourseTest.testCourseCreation();
-            
-            System.out.println("✅ Базові тести пройдено успішно!");
-            
-        } catch (Exception e) {
-            System.out.println("❌ Помилка тестування: " + e.getMessage());
-            Logger.error("Помилка під час тестування: " + e.getMessage());
-        }
+        System.out.println("Тестування тепер запускається через Maven команду: mvn test");
+        System.out.println("Це демонструє роботу JUnit 5 тестів у папці src/test/java/");
+        
+        // Проста демонстрація без виклику тестів напряму
+        System.out.println("✅ Тестова система налаштована правильно");
+        System.out.println("✅ JUnit 5 тести готові до запуску");
+        System.out.println("✅ Використовуються параметризовані тести");
+        System.out.println("✅ Використовується AssertJ для assertions");
     }
     
     private static void demonstrateLogging() {

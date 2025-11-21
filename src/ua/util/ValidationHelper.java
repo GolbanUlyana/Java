@@ -1,21 +1,25 @@
 package ua.util;
 
+import ua.validators.CourseValidator;
+import ua.validators.PersonValidator;
+import ua.validators.StudentValidator;
+
 public class ValidationHelper {
-  
+    
     public static boolean isValidName(String name) {
-        return name != null && !name.trim().isEmpty() && name.matches("[A-Za-zА-Яа-яЇїІіЄєҐґ'\\-\\s]+");
+        return PersonValidator.isValidFirstName(name);
     }
     
     public static boolean isValidEmail(String email) {
-        return email != null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+        return StudentValidator.isValidEmail(email);
     }
     
     public static boolean isValidDate(java.time.LocalDate date) {
-        return date != null && !date.isAfter(java.time.LocalDate.now());
+        return PersonValidator.isValidBirthDate(date);
     }
     
     public static boolean isValidCredits(int credits) {
-        return credits > 0 && credits <= 10;
+        return CourseValidator.isValidCredits(credits);
     }
     
     public static boolean isValidScore(int score) {

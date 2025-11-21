@@ -1,7 +1,8 @@
 package ua.model;
 
-import ua.util.Utils;
 import java.time.LocalDate;
+import ua.util.Utils;
+import ua.validators.CourseValidator;
 
 public class Course {
     private String name;
@@ -9,25 +10,24 @@ public class Course {
     private int credits;
     private LocalDate startDate;
     
-    // Конструктор
     public Course(String name, String description, int credits, LocalDate startDate) {
-        setName(name);
-        setDescription(description);
-        setCredits(credits);
-        setStartDate(startDate);
+        CourseValidator.validateCourseData(name, description, credits, startDate);
+        this.name = name.trim();
+        this.description = description;
+        this.credits = credits;
+        this.startDate = startDate;
     }
     
-    // Factory метод
+    // ДОДАЙТЕ ЦЕЙ FACTORY МЕТОД
     public static Course createCourse(String name, String description, 
                                     int credits, LocalDate startDate) {
         return new Course(name, description, credits, startDate);
     }
     
-    // Getter/Setter
     public String getName() { return name; }
     
     public void setName(String name) {
-        if (!ua.util.ValidationHelper.isNotEmpty(name)) {
+        if (!CourseValidator.isValidCourseName(name)) {
             throw new IllegalArgumentException("Course name cannot be empty");
         }
         this.name = name.trim();
@@ -36,7 +36,7 @@ public class Course {
     public String getDescription() { return description; }
     
     public void setDescription(String description) {
-        if (description == null) {
+        if (!CourseValidator.isValidDescription(description)) {
             throw new IllegalArgumentException("Description cannot be null");
         }
         this.description = description;
@@ -45,7 +45,7 @@ public class Course {
     public int getCredits() { return credits; }
     
     public void setCredits(int credits) {
-        if (!ua.util.ValidationHelper.isValidCredits(credits)) {
+        if (!CourseValidator.isValidCredits(credits)) {
             throw new IllegalArgumentException("Credits must be between 1 and 10");
         }
         this.credits = credits;
@@ -54,7 +54,7 @@ public class Course {
     public LocalDate getStartDate() { return startDate; }
     
     public void setStartDate(LocalDate startDate) {
-        if (!ua.util.ValidationHelper.isValidDate(startDate)) {
+        if (!CourseValidator.isValidStartDate(startDate)) {
             throw new IllegalArgumentException("Invalid start date");
         }
         this.startDate = startDate;

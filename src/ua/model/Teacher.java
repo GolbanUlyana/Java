@@ -1,29 +1,27 @@
 package ua.model;
 
 import java.time.LocalDate;
+import ua.validators.TeacherValidator;
 
 public class Teacher extends Person {
     private int experienceYears;
     
-    // Конструктор
     public Teacher(String firstName, String lastName, LocalDate birthDate, int experienceYears) {
         super(firstName, lastName, birthDate);
-        setExperienceYears(experienceYears);
+        TeacherValidator.validateTeacherData(experienceYears);
+        this.experienceYears = experienceYears;
     }
     
-    // Factory метод
+    // ДОДАЙТЕ ЦЕЙ FACTORY МЕТОД
     public static Teacher createTeacher(String firstName, String lastName, 
                                        LocalDate birthDate, int experienceYears) {
         return new Teacher(firstName, lastName, birthDate, experienceYears);
     }
     
-    // Getter/Setter
     public int getExperienceYears() { return experienceYears; }
     
     public void setExperienceYears(int experienceYears) {
-        if (experienceYears < 0 || experienceYears > 60) {
-            throw new IllegalArgumentException("Experience years must be between 0 and 60");
-        }
+        TeacherValidator.validateTeacherData(experienceYears);
         this.experienceYears = experienceYears;
     }
     

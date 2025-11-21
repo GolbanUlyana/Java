@@ -1,8 +1,7 @@
 package ua.model;
 
-import ua.util.ValidationHelper;
 import java.time.LocalDate;
-
+import ua.validators.PersonValidator;
 
 public abstract class Person {
     protected String firstName;
@@ -10,28 +9,29 @@ public abstract class Person {
     protected LocalDate birthDate;
     
     protected Person(String firstName, String lastName, LocalDate birthDate) {
-        setFirstName(firstName);
-        setLastName(lastName);
-        setBirthDate(birthDate);
+        PersonValidator.validatePersonData(firstName, lastName, birthDate);  
+        this.firstName = firstName.trim();
+        this.lastName = lastName.trim();
+        this.birthDate = birthDate;
     }
     
-    // Protected методи для наслідування
+    
     protected final void setFirstName(String firstName) {
-        if (!ValidationHelper.isValidName(firstName)) {
+        if (!PersonValidator.isValidFirstName(firstName)) {  
             throw new IllegalArgumentException("Invalid first name");
         }
         this.firstName = firstName.trim();
     }
     
     protected final void setLastName(String lastName) {
-        if (!ValidationHelper.isValidName(lastName)) {
+        if (!PersonValidator.isValidLastName(lastName)) {  
             throw new IllegalArgumentException("Invalid last name");
         }
         this.lastName = lastName.trim();
     }
     
     protected final void setBirthDate(LocalDate birthDate) {
-        if (!ValidationHelper.isValidDate(birthDate)) {
+        if (!PersonValidator.isValidBirthDate(birthDate)) {  
             throw new IllegalArgumentException("Invalid birth date");
         }
         this.birthDate = birthDate;
